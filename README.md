@@ -2,10 +2,12 @@
 
 A repo for all the MetaDex's smart contracts. Every functionality's code resides in its own folder.
 
+The protocol's ERC20 token: [METADEX](./token/README.md)
+
 ## Learn more
-Website: ``
-Discord: ``
-Twitter: ``
+- Website: ``
+- Discord: ``
+- Twitter: ``
 
 
 ## Feature list
@@ -21,5 +23,5 @@ Twitter: ``
 Refer to the specific feature's README.
 
 ## Creating a new feature
-Create a new folder from the root directory
-Run `npm init` - Any other package manager like Yarn's `yarn init` can be used. If running npm, note that npm 7 or later is recommended because it makes installing Hardhat plugins simpler.
+1. Create a new folder from the root directory.
+2. Run `npm init`. Any other package manager like Yarn's `yarn init` can be used. If running npm, note that npm 7 or later is recommended because it makes installing Hardhat plugins simpler.

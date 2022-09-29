@@ -2,12 +2,13 @@
 This directory contains the smart contracts for MetaDex's vesting.
 
 ## Local installation
-Clone the vesting folder by excecuting a [sparse checkout](https://git-scm.com/docs/git-sparse-checkout)
+Clone the vesting folder by excecuting a [sparse checkout](https://git-scm.com/docs/git-sparse-checkout).
 
 Run `yarn`
 
 ## Compile
-`yarn compile` will compile all smart contracts in the contracts directory. ABI files will be automatically exported in build/abi directory.
+`yarn compile` will compile all smart contracts in the contracts directory.
+ABI files will be automatically exported in build/abi directory.
 
 ## Testing
 `yarn test`
