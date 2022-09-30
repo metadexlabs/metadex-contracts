@@ -11,16 +11,6 @@ In the root folder, run
 yarn install
 ```
 
-Install TypeScript.
-```sh
-yarn add typescript --dev
-```
-
-Install ts-node.
-```sh
-yarn add ts-node
-```
-
 Install Hardhat locally(from the root folder) using Yarn.
 A global installation of hardhat is not supported. Run `yarn global list` to list global packages and `yarn global remove hardhat` if you would like to remove the global installation.
 Run this command for a local installation.
