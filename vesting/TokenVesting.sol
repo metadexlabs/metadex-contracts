@@ -86,6 +86,7 @@ contract TokenVesting is Ownable, ReentrancyGuard{
     external
     view
     returns(uint256){
+        require(_beneficiary != address(0), "Cannot be zero address");
         return holdersVestingCount[_beneficiary];
     }
 
@@ -155,6 +156,7 @@ contract TokenVesting is Ownable, ReentrancyGuard{
     )
         public
         onlyOwner{
+        require(_beneficiary != address(0), "Cannot be zero address");
         require(
             this.getWithdrawableAmount() >= _amount,
             "TokenVesting: cannot create vesting schedule because not sufficient tokens"
@@ -313,6 +315,7 @@ contract TokenVesting is Ownable, ReentrancyGuard{
         public
         pure
         returns(bytes32){
+        require(holder != address(0), "Cannot be zero address");
         return keccak256(abi.encodePacked(holder, index));
     }
 
