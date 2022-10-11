@@ -593,8 +593,8 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
 
         // Check ticketId is within range
         if (
-            (_lotteries[_lotteryId].firstTicketIdNextLottery < _ticketId) &&
-            (_lotteries[_lotteryId].firstTicketId >= _ticketId)
+            (_lotteries[_lotteryId].firstTicketIdNextLottery <= _ticketId) ||
+            (_lotteries[_lotteryId].firstTicketId > _ticketId)
         ) {
             return 0;
         }
