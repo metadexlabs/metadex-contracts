@@ -119,6 +119,8 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
      * @param _randomGeneratorAddress: address of the RandomGenerator contract used to work with ChainLink VRF
      */
     constructor(address _metadexTokenAddress, address _randomGeneratorAddress) {
+        require(_metadexTokenAddress != address(0), "Cannot be zero address");
+        require(_randomGeneratorAddress != address(0), "Cannot be zero address");
         metadexToken = IERC20(_metadexTokenAddress);
         randomGenerator = IRandomNumberGenerator(_randomGeneratorAddress);
 
@@ -346,6 +348,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
      * @param _randomGeneratorAddress: address of the random generator
      */
     function changeRandomGenerator(address _randomGeneratorAddress) external onlyOwner {
+        require(_randomGeneratorAddress != address(0), "Cannot be zero address");
         require(
             (currentLotteryId == 0) || (_lotteries[currentLotteryId].status == Status.Claimable),
             "Lottery not in claimable"
@@ -458,6 +461,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
      * @dev Only callable by owner.
      */
     function recoverWrongTokens(address _tokenAddress, uint256 _tokenAmount) external onlyOwner {
+        require(_tokenAddress != address(0), "Cannot be zero address");
         require(_tokenAddress != address(metadexToken), "Cannot be METADEX token");
 
         IERC20(_tokenAddress).safeTransfer(address(msg.sender), _tokenAmount);
