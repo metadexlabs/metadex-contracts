@@ -373,6 +373,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
      */
     function injectFunds(uint256 _lotteryId, uint256 _amount) external override onlyOwnerOrInjector {
         require(_lotteries[_lotteryId].status == Status.Open, "Lottery not open");
+        require(_amount > 0, "Amount should be greater than 0");
 
         metadexToken.safeTransferFrom(address(msg.sender), address(this), _amount);
         _lotteries[_lotteryId].amountCollectedInMetadex += _amount;
@@ -423,6 +424,8 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
                 _rewardsBreakdown[5]) == 10000,
             "Rewards must equal 10000"
         );
+
+        require(maxNumberTicketsPerBuyOrClaim < (_discountDivisor + 1), "maxNumberTicketsPerBuyOrClaim must be less than discountDivisor+1");
 
         currentLotteryId++;
 
@@ -480,7 +483,9 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         onlyOwner
     {
         require(_minPriceTicketInMetadex <= _maxPriceTicketInMetadex, "minPrice must be < maxPrice");
-
+        require(_minPriceTicketInMetadex > 0, "minPrice should be greater than 0");
+        require(_maxPriceTicketInMetadex > 0, "maxPrice should be greater than 0");
+    
         minPriceTicketInMetadex = _minPriceTicketInMetadex;
         maxPriceTicketInMetadex = _maxPriceTicketInMetadex;
     }
@@ -530,6 +535,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
     ) external pure returns (uint256) {
         require(_discountDivisor >= MIN_DISCOUNT_DIVISOR, "Must be >= MIN_DISCOUNT_DIVISOR");
         require(_numberTickets != 0, "Number of tickets must be > 0");
+        require(_priceTicket > 0, "priceTicket should be greater than 0");
 
         return _calculateTotalPriceForBulkTickets(_discountDivisor, _priceTicket, _numberTickets);
     }
@@ -546,6 +552,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
      * @param _lotteryId: lottery id
      */
     function viewLottery(uint256 _lotteryId) external view returns (Lottery memory) {
+        require((_lotteryId > 0) && (_lotteryId <= currentLotteryId), "lotteryId should be greater than 0 and less than or equal to currentLotteryId");
         return _lotteries[_lotteryId];
     }
 
@@ -586,6 +593,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         uint256 _ticketId,
         uint32 _bracket
     ) external view returns (uint256) {
+        require(_bracket <= 5, "bracket should be less than or equal to 5");
         // Check lottery is in claimable status
         if (_lotteries[_lotteryId].status != Status.Claimable) {
             return 0;
@@ -625,6 +633,8 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
             uint256
         )
     {
+        require(_lotteryId > 0, "lotteryId should be greater than 0");
+        require(_lotteryId <= currentLotteryId, "lotteryId should be less than or equal to currentLotteryId");
         uint256 length = _size;
         uint256 numberTicketsBoughtAtLotteryId = _userTicketIdsPerLotteryId[_user][_lotteryId].length;
 
@@ -694,6 +704,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         uint256 _priceTicket,
         uint256 _numberTickets
     ) internal pure returns (uint256) {
+        require(_priceTicket > 0, "priceTicket should be greater than 0");
         return (_priceTicket * _numberTickets * (_discountDivisor + 1 - _numberTickets)) / _discountDivisor;
     }
 
