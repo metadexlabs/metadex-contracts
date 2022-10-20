@@ -1,7 +1,4 @@
-<p align="center">
-    <img src="" width="300">
-    <h2 align="center">The MetaDex Project Overview</h2>
-</p>
+# MetaDex Overview
 
 A repo for all the MetaDex's smart contracts. Every functionality's code resides in its own folder.
 
