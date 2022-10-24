@@ -17,7 +17,6 @@ The protocol's ERC20 token: [METADEX](./token/README.md)
 | [Token](./token)                                                      | The ERC20 METADEX token smart contract                                                            |
 | [Vesting](./vesting/)                                                 | MetaDex's vesting implementation                                                                  |
 | [Lottery](./lottery/)                                                 | The lottery implementation using Chainlink's VRF                                                  |
-| [Bonding Curve](./bonding-curve)                                      | MetaDex's bonding curve and market transition smart contracts and Uniswap router functionalities  |
 
 ## Cloning an existing feature
 Refer to the specific feature's README.
