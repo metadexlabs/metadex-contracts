@@ -502,9 +502,9 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
      * @dev Only callable by owner
      */
     function setMaxNumberTicketsPerBuyOrClaim(uint256 _maxNumberTicketsPerBuyOrClaim) external onlyOwner {
-        require(_maxNumberTicketsPerBuy != 0, "Must be > 0");
-        require(_maxNumberTicketsPerBuy < (_lotteries[currentLotteryId].discountDivisor + 1), "maxNumberTicketsPerBuyOrClaim must be less than discountDivisor+1");
-        maxNumberTicketsPerBuyOrClaim = _maxNumberTicketsPerBuy;
+        require(_maxNumberTicketsPerBuyOrClaim != 0, "Must be > 0");
+        require(_maxNumberTicketsPerBuyOrClaim < (_lotteries[currentLotteryId].discountDivisor + 1), "maxNumberTicketsPerBuyOrClaim must be less than discountDivisor+1");
+        maxNumberTicketsPerBuyOrClaim = _maxNumberTicketsPerBuyOrClaim;
     }
 
     /**
