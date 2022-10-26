@@ -558,7 +558,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
     }
 
     /**
-     * @notice View ticker statuses and numbers for an array of ticket ids
+     * @notice View ticket statuses and numbers for an array of ticket ids
      * @param _ticketIds: array of _ticketId
      */
     function viewNumbersAndStatusesForTicketIds(uint256[] calldata _ticketIds)
