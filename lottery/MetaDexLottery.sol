@@ -35,7 +35,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
     uint256 public constant MAX_LENGTH_LOTTERY = 7 days;
     uint256 public constant MAX_TREASURY_FEE = 3000; // 30%
 
-    IERC20 public metadexToken;
+    IERC20 public immutable metadexToken;
     IRandomNumberGenerator public randomGenerator;
 
     enum Status {
