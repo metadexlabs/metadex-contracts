@@ -49,14 +49,6 @@ contract TokenVesting is Ownable, ReentrancyGuard{
     event Revoked();
 
     /**
-    * @dev Reverts if no vesting schedule matches the passed identifier.
-    */
-    modifier onlyIfVestingScheduleExists(bytes32 vestingScheduleId) {
-        require(vestingSchedules[vestingScheduleId].initialized == true ,"No vesting schedule matches the passed identifier");
-        _;
-    }
-
-    /**
     * @dev Reverts if the vesting schedule does not exist or has been revoked.
     */
     modifier onlyIfVestingScheduleNotRevoked(bytes32 vestingScheduleId) {
