@@ -35,6 +35,13 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
     uint256 public constant MAX_LENGTH_LOTTERY = 7 days;
     uint256 public constant MAX_TREASURY_FEE = 3000; // 30%
 
+    uint256 public constant MIN_TICKET_NUMBER = 1000000;
+    uint256 public constant MAX_TICKET_NUMBER = 1999999;
+
+    uint256 public constant MAX_REWARD_BREAKDOWN = 10000;
+
+    uint256 public constant NUMBER_OF_BRACKETS = 6;
+
     IERC20 public immutable metadexToken;
     IRandomNumberGenerator public randomGenerator;
 
@@ -51,10 +58,10 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         uint256 endTime;
         uint256 priceTicketInMetadex;
         uint256 discountDivisor;
-        uint256[6] rewardsBreakdown; // 0: 1 matching number // 5: 6 matching numbers
+        uint256[NUMBER_OF_BRACKETS] rewardsBreakdown; // 0: 1 matching number // 5: 6 matching numbers
         uint256 treasuryFee; // 500: 5% // 200: 2% // 50: 0.5%
-        uint256[6] metadexPerBracket;
-        uint256[6] countWinnersPerBracket;
+        uint256[NUMBER_OF_BRACKETS] metadexPerBracket;
+        uint256[NUMBER_OF_BRACKETS] countWinnersPerBracket;
         uint256 firstTicketId;
         uint256 firstTicketIdNextLottery;
         uint256 amountCollectedInMetadex;
@@ -167,7 +174,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         for (uint256 i = 0; i < _ticketNumbers.length; i++) {
             uint32 thisTicketNumber = _ticketNumbers[i];
 
-            require((thisTicketNumber >= 1000000) && (thisTicketNumber <= 1999999), "Ticket number is outside the allowed range");
+            require((thisTicketNumber >= MIN_TICKET_NUMBER) && (thisTicketNumber <= MAX_TICKET_NUMBER), "Ticket number is outside the allowed range");
 
             _numberTicketsPerLotteryId[_lotteryId][1 + ((thisTicketNumber / 100000) % 10)]++;
             _numberTicketsPerLotteryId[_lotteryId][11 + ((thisTicketNumber / 10000) % 100)]++;
@@ -208,7 +215,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         uint256 rewardInMetadexToTransfer;
 
         for (uint256 i = 0; i < _ticketIds.length; i++) {
-            require(_brackets[i] < 6, "Bracket out of range"); // Must be between 0 and 5
+            require(_brackets[i] < NUMBER_OF_BRACKETS, "Bracket out of range"); // Must be between 0 and 5
 
             uint256 thisTicketId = _ticketIds[i];
 
@@ -289,7 +296,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         uint256 amountToWithdrawToTreasury = 0;
 
         // Calculate prizes in METADEX for each bracket by starting from the highest one
-        for (uint32 i = 0; i < 6; i++) {
+        for (uint32 i = 0; i < NUMBER_OF_BRACKETS; i++) {
             uint32 j = 5 - i;
             uint32 transformedWinningNumber = _bracketCalculator[j] + ((finalNumber / (uint32(10)**i) ) % (uint32(10)**(j + 1)));
 
@@ -394,7 +401,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         uint256 _endTime,
         uint256 _priceTicketInMetadex,
         uint256 _discountDivisor,
-        uint256[6] calldata _rewardsBreakdown,
+        uint256[NUMBER_OF_BRACKETS] calldata _rewardsBreakdown,
         uint256 _treasuryFee
     ) external override onlyOperator {
         require(
@@ -421,8 +428,8 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
                 _rewardsBreakdown[2] +
                 _rewardsBreakdown[3] +
                 _rewardsBreakdown[4] +
-                _rewardsBreakdown[5]) == 10000,
-            "Rewards must equal 10000"
+                _rewardsBreakdown[5]) == MAX_REWARD_BREAKDOWN,
+            "Rewards must equal MAX_REWARD_BREAKDOWN"
         );
 
         require(maxNumberTicketsPerBuyOrClaim < (_discountDivisor + 1), "maxNumberTicketsPerBuyOrClaim must be less than discountDivisor+1");
