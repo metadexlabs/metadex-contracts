@@ -167,7 +167,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         for (uint256 i = 0; i < _ticketNumbers.length; i++) {
             uint32 thisTicketNumber = _ticketNumbers[i];
 
-            require((thisTicketNumber >= 1000000) && (thisTicketNumber <= 1999999), "Outside range");
+            require((thisTicketNumber >= 1000000) && (thisTicketNumber <= 1999999), "Ticket number is outside the allowed range");
 
             _numberTicketsPerLotteryId[_lotteryId][1 + ((thisTicketNumber / 100000) % 10)]++;
             _numberTicketsPerLotteryId[_lotteryId][11 + ((thisTicketNumber / 10000) % 100)]++;
@@ -409,7 +409,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
 
         require(
             (_priceTicketInMetadex >= minPriceTicketInMetadex) && (_priceTicketInMetadex <= maxPriceTicketInMetadex),
-            "Outside of limits"
+            "Ticket price in MetaDex is outside the allowed range"
         );
 
         require(_discountDivisor >= MIN_DISCOUNT_DIVISOR, "Discount divisor too low");
@@ -482,7 +482,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         external
         onlyOwner
     {
-        require(_minPriceTicketInMetadex <= _maxPriceTicketInMetadex, "minPrice must be < maxPrice");
+        require(_minPriceTicketInMetadex <= _maxPriceTicketInMetadex, "minPrice must be <= maxPrice");
         require(_minPriceTicketInMetadex > 0, "minPrice should be greater than 0");
         require(_maxPriceTicketInMetadex > 0, "maxPrice should be greater than 0");
     
