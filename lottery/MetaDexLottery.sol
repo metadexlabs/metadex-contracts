@@ -118,7 +118,9 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
     event NewRandomGenerator(address indexed randomGenerator);
     event TicketsPurchase(address indexed buyer, uint256 indexed lotteryId, uint256 numberTickets);
     event TicketsClaim(address indexed claimer, uint256 amount, uint256 indexed lotteryId, uint256 numberTickets);
-
+    event NewMinAndMaxTicketPriceInMetadex(uint256 minPriceTicketInMetadex, uint256 maxPriceTicketInMetadex);
+    event NewMaxNumberTicketsPerBuyOrClaim(uint256 maxNumberTicketsPerBuyOrClaim);
+    
     /**
      * @notice Constructor
      * @dev RandomNumberGenerator must be deployed prior to this contract
@@ -495,6 +497,8 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
     
         minPriceTicketInMetadex = _minPriceTicketInMetadex;
         maxPriceTicketInMetadex = _maxPriceTicketInMetadex;
+
+        emit NewMinAndMaxTicketPriceInMetadex(_minPriceTicketInMetadex, _maxPriceTicketInMetadex);
     }
 
     /**
@@ -505,6 +509,8 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         require(_maxNumberTicketsPerBuyOrClaim != 0, "Must be > 0");
         require(_maxNumberTicketsPerBuyOrClaim < (_lotteries[currentLotteryId].discountDivisor + 1), "maxNumberTicketsPerBuyOrClaim must be less than discountDivisor+1");
         maxNumberTicketsPerBuyOrClaim = _maxNumberTicketsPerBuyOrClaim;
+
+        emit NewMaxNumberTicketsPerBuyOrClaim(_maxNumberTicketsPerBuyOrClaim);
     }
 
     /**
