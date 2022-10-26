@@ -63,8 +63,8 @@ contract TokenVesting is Ownable, ReentrancyGuard{
     * @dev Reverts if the vesting schedule does not exist or has been revoked.
     */
     modifier onlyIfVestingScheduleNotRevoked(bytes32 vestingScheduleId) {
-        require(vestingSchedules[vestingScheduleId].initialized == true, "Vesting schedule does not exist");
-        require(vestingSchedules[vestingScheduleId].revoked == false, "Vesting schedule has been revoked");
+        require(vestingSchedules[vestingScheduleId].initialized, "Vesting schedule does not exist");
+        require(!vestingSchedules[vestingScheduleId].revoked, "Vesting schedule has been revoked");
         _;
     }
 
@@ -209,7 +209,7 @@ contract TokenVesting is Ownable, ReentrancyGuard{
         onlyOwner
         onlyIfVestingScheduleNotRevoked(vestingScheduleId){
         VestingSchedule storage vestingSchedule = vestingSchedules[vestingScheduleId];
-        require(vestingSchedule.revocable == true, "TokenVesting: vesting is not revocable");
+        require(vestingSchedule.revocable, "TokenVesting: vesting is not revocable");
         uint256 vestedAmount = _computeReleasableAmount(vestingSchedule);
         if(vestedAmount > 0){
             release(vestingScheduleId, vestedAmount);
@@ -350,7 +350,7 @@ contract TokenVesting is Ownable, ReentrancyGuard{
     view
     returns(uint256){
         uint256 currentTime = _getCurrentTime();
-        if ((currentTime < vestingSchedule.cliffEndTimestamp) || vestingSchedule.revoked == true) {
+        if ((currentTime < vestingSchedule.cliffEndTimestamp) || vestingSchedule.revoked) {
             return 0;
         } else if (currentTime >= vestingSchedule.start.add(vestingSchedule.duration)) {
             return vestingSchedule.amountTotal.sub(vestingSchedule.released);
