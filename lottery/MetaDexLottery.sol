@@ -278,7 +278,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         uint32 finalNumber = randomGenerator.viewRandomResult();
 
         // Initialize a number to count addresses in the previous bracket
-        uint256 numberAddressesInPreviousBracket;
+        uint256 numberAddressesInPreviousBracket = 0;
 
         // Calculate the amount to share post-treasury fee
         uint256 amountToShareToWinners = (
@@ -286,7 +286,7 @@ contract MetaDexLottery is ReentrancyGuard, IMetaDexLottery, Ownable {
         ) / 10000;
 
         // Initializes the amount to withdraw to treasury
-        uint256 amountToWithdrawToTreasury;
+        uint256 amountToWithdrawToTreasury = 0;
 
         // Calculate prizes in METADEX for each bracket by starting from the highest one
         for (uint32 i = 0; i < 6; i++) {
