@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity 0.8.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 
@@ -126,12 +126,12 @@ contract Interaction is Ownable {
                 amount * 50 / 100
             );
 
-            //50% liquid after 1 year
+            //50% liquid after 180 days
             ITokenVesting(vestingContractAddr).createVestingSchedule(
                 userAddress,
                 block.timestamp,
-                2 hours,
-                2 hours,
+                180 days,
+                180 days,
                 1,
                 true,
                 amount * 50 / 100
@@ -148,23 +148,23 @@ contract Interaction is Ownable {
                 amount * 10 / 100
             );
 
-            //25% liquid after 6 months
+            //25% liquid after 180 days
             ITokenVesting(vestingContractAddr).createVestingSchedule(
                 userAddress,
                 block.timestamp,
-                1 hours,
-                1 hours,
+                180 days,
+                180 days,
                 1,
                 true,
                 amount * 25 / 100
             );
 
-            //65% liquid after 12 months
+            //65% liquid after 365 days
             ITokenVesting(vestingContractAddr).createVestingSchedule(
                 userAddress,
                 block.timestamp,
-                2 hours,
-                2 hours,
+                365 days,
+                365 days,
                 1,
                 true,
                 amount * 65 / 100
